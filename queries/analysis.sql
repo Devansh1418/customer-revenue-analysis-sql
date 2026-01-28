@@ -1,0 +1,67 @@
+Customer & Revenue Analysis using Advanced SQL
+   Dataset: Global Superstore
+   Author: Devansh Goel
+
+
+   Query 1: Monthly Revenue Trend
+   Shows how revenue changes month by month
+
+SELECT
+    substr("Order.Date", 1, 7) AS order_month,
+    SUM(Sales) AS total_revenue
+FROM superstore
+GROUP BY order_month
+ORDER BY order_month;
+
+ ---------------------------------------------------------
+   Query 2: Top 10 Customers by Revenue
+
+SELECT
+    "Customer.ID",
+    "Customer.Name",
+    SUM(Sales) AS total_revenue
+FROM superstore
+GROUP BY "Customer.ID", "Customer.Name"
+ORDER BY total_revenue DESC
+LIMIT 10;
+
+---------------------------------------------------------
+   Query 3: Customer Segmentation using CASE WHEN
+
+SELECT
+    "Customer.ID",
+    "Customer.Name",
+    SUM(Sales) AS total_spent,
+    CASE
+        WHEN SUM(Sales) >= 10000 THEN 'High Value'
+        WHEN SUM(Sales) BETWEEN 5000 AND 9999 THEN 'Medium Value'
+        ELSE 'Low Value'
+    END AS customer_segment
+FROM superstore
+GROUP BY "Customer.ID", "Customer.Name";
+
+---------------------------------------------------------
+   Query 4: Revenue by Region
+
+SELECT
+    Region,
+    SUM(Sales) AS total_revenue
+FROM superstore
+GROUP BY Region
+ORDER BY total_revenue DESC;
+
+---------------------------------------------------------
+   Query 5: Average Revenue per Customer (CTE)
+
+WITH customer_revenue AS (
+    SELECT
+        "Customer.ID",
+        SUM(Sales) AS total_revenue
+    FROM superstore
+    GROUP BY "Customer.ID"
+)
+SELECT
+    AVG(total_revenue) AS avg_customer_revenue,
+    MAX(total_revenue) AS max_customer_revenue,
+    MIN(total_revenue) AS min_customer_revenue
+FROM customer_revenue;
