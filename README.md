@@ -17,7 +17,7 @@ The dataset contains order details, customer information, regional data, and sal
 
 ##  Tools & Technologies Used
 - SQL (Advanced queries)
-- SQLite / DB Browser for SQLite
+- DB Browser for SQLite
 - GitHub (Version Control & Project Hosting)
   
 
